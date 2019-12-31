@@ -25,23 +25,25 @@ class Command(BaseCommand):
     def process_categories(self, el: ET.Element, parent=None):
         el_title = el.find('ncx:navLabel/ncx:text', self.ns).text
         children = el.findall('ncx:navPoint', self.ns)
-        self.stdout.write(self.style.SUCCESS('Processing {}'.format(el_title)))
 
-        # recipe (TODO)
-        if not children:
+        # recipe
+        if not children and parent:
             recipe_name = el.find('ncx:navLabel/ncx:text', self.ns).text
-            print('{}: no children for cat: {}'. format(recipe_name, parent))
-            if parent:
-                Recipe.objects.get_or_create(
-                    name=recipe_name,
+            self.stdout.write(self.style.SUCCESS('Adding recipe {} to {}'.format(recipe_name, parent)))
+            Recipe.objects.get_or_create(
+                name=recipe_name,
+                defaults=dict(
                     category=parent,
                 )
+            )
         # category
         else:
-            print('Creating {} for {}'.format(el_title, parent))
+            self.stdout.write(self.style.SUCCESS('Adding category {}'.format(el_title)))
             category, was_created = Category.objects.get_or_create(
                 name=el_title,
-                parent=parent,
+                defaults=dict(
+                    parent=parent,
+                ),
             )
             for child in children:
                 self.process_categories(child, category)
