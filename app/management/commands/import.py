@@ -19,30 +19,29 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Processing "%s"' % epub))
         tree = ET.parse('/home/danny/Dropbox/joc/toc.ncx')
         root = tree.getroot()
-        self.process_categories(root.find('./ncx:navMap', self.ns))
+        for nav_point in root.findall('./ncx:navMap/ncx:navPoint', self.ns):
+            self.process_categories(nav_point)
 
-    def process_categories(self, el: ET.Element, parents=None):
-        parents = parents or []
+    def process_categories(self, el: ET.Element, parent=None):
+        el_title = el.find('ncx:navLabel/ncx:text', self.ns).text
         children = el.findall('ncx:navPoint', self.ns)
+        self.stdout.write(self.style.SUCCESS('Processing {}'.format(el_title)))
 
         # recipe (TODO)
         if not children:
             recipe_name = el.find('ncx:navLabel/ncx:text', self.ns).text
-            parent = parents[-1] if parents else None
-            print('{}: no children'. format(recipe_name))
-            recipe, was_created = Recipe.objects.get_or_create(dict(
-                name=recipe_name,
-                category=parent,
-            ))
-            print(recipe, was_created)
+            print('{}: no children for cat: {}'. format(recipe_name, parent))
+            if parent:
+                Recipe.objects.get_or_create(
+                    name=recipe_name,
+                    category=parent,
+                )
         # category
         else:
+            print('Creating {} for {}'.format(el_title, parent))
+            category, was_created = Category.objects.get_or_create(
+                name=el_title,
+                parent=parent,
+            )
             for child in children:
-                category_title = child.find('ncx:navLabel/ncx:text', self.ns).text
-                parent = parents[-1] if parents else None
-                category, was_created = Category.objects.get_or_create(dict(
-                    name=category_title,
-                    parent=parent,
-                ))
-                self.stdout.write(self.style.SUCCESS('{}{}'.format('\t' * len(parents), category_title)))
-                self.process_categories(child, parents + [category])
+                self.process_categories(child, category)
