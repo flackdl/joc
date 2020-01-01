@@ -31,18 +31,13 @@ class Command(BaseCommand):
 
         # child
         if not children and parent:
-            recipe_name = el.find('ncx:navLabel/ncx:text', self.ns).text
             content = el.find('ncx:content', self.ns)
             content_html = re.sub(r'#.*', '', content.attrib['src'])  # remove fragment
             content_path = os.path.join(self.path, content_html)
-            self.stdout.write(self.style.SUCCESS(os.path.join(self.path, content_path)))
             tree = lxml.html.parse(content_path)
             root = tree.getroot()
             for recipe in root.findall('.//h3'):
-                if not recipe.text:
-                    self.stdout.write(self.style.WARNING('NO recipe text for {}'.format(parent)))
-                    continue
-                self.stdout.write(self.style.SUCCESS('Adding recipe {} to {}'.format(recipe.text, parent)))
+                self.stdout.write(self.style.SUCCESS('Adding recipe {} to {}'.format(recipe.text_content(), parent)))
                 instructions = []
                 instruction_el = recipe.getnext()
                 while True:
@@ -51,7 +46,7 @@ class Command(BaseCommand):
                     instructions.append(instruction_el.text_content())
                     instruction_el = instruction_el.getnext()
                 Recipe.objects.get_or_create(
-                    name=recipe.text,
+                    name=recipe.text_content(),
                     defaults=dict(
                         instructions='\n'.join(instructions),
                         category=parent,
