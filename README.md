@@ -4,7 +4,8 @@
 
 #### Dependencies
 
-- python3
+- python 3.6
+- lxml
 
 Make sure you have python 3.6+ by running
 
@@ -13,6 +14,11 @@ Make sure you have python 3.6+ by running
 Your system may use `python3`, so try:
 
     python3 --version
+
+For lxml:
+
+ - on linux, make sure you have `python3-lxml`
+ - on macos, make sure you have `py36-lxml` from mac ports
 
 #### Create your python environment
 
