@@ -65,5 +65,5 @@ The import script expects to find the `toc.ncx` (table of contents) in the epub 
 
 The server will now be running:
 
-- Backend Admin: [http://127.0.0.1:8000/admin]
-- API: [http://127.0.0.1:8000/api]
+- Backend Admin: http://127.0.0.1:8000/admin
+- API: http://127.0.0.1:8000/api
