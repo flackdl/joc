@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from app.api.filtersets import RecipeFilterSet
 from app.api.serializers import CategorySerializer, RecipeSerializer
 from app.models import Category, Recipe
 
@@ -12,5 +13,4 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
-    filterset_fields = ['category', 'name']
-
+    filterset_class = RecipeFilterSet
