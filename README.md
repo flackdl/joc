@@ -45,11 +45,13 @@ Create super user (this lets you log into the backend admin):
 
     python manage.py createsuperuser
 
-#### Import JOC
+#### Import JOC into database
 
-Import joc epub (it must already be unzipped) into database
+Import joc epub (it must already be unzipped) into database:
 
-    python manage.py import /path/to/extracted/epub
+    python manage.py import /path/to/extracted/epub-directory
+
+The import script expects to find the `toc.ncx` (table of contents) in the epub directory so make sure you're pointing to the correct place.
 
 #### Start development server
 
