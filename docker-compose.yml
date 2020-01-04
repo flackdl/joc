@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+
+  postgis:
+    image: postgres:11
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:
