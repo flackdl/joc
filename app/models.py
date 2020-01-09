@@ -1,4 +1,5 @@
 from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.search import SearchVectorField
 from django.db import models
 
 
@@ -18,10 +19,11 @@ class Recipe(models.Model):
     name = models.CharField(max_length=500, unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     instructions = models.TextField()
+    search = SearchVectorField()
 
     class Meta:
         indexes = [
-            GinIndex(fields=['name', 'instructions']),
+            GinIndex(fields=['search']),
         ]
 
     def __str__(self):

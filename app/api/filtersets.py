@@ -13,9 +13,10 @@ class CategoryFilter(filters.ModelChoiceFilter):
         return result
 
     def filter(self, qs, category):
-        # recursively return recipes from all child categories
-        children = self._child_categories(category)
-        qs = qs.filter(category__in=children)
+        if category:
+            # recursively return recipes from all child categories
+            children = self._child_categories(category)
+            qs = qs.filter(category__in=children)
         return qs
 
 
