@@ -3,6 +3,8 @@ from django.contrib.postgres.search import SearchRank, SearchQuery
 from django.db.models import F
 from rest_framework.filters import SearchFilter
 
+from joc.settings import POSTGRES_LANGUAGE_UNACCENT
+
 
 class SearchVectorFilter(SearchFilter):
     """
@@ -20,7 +22,7 @@ class SearchVectorFilter(SearchFilter):
     def filter_queryset(self, request, queryset, view):
         queryset = super().filter_queryset(request, queryset, view)
         # build combined search queries
-        search_queries = [SearchQuery(term) for term in self.get_search_terms(request)]
+        search_queries = [SearchQuery(term, config=POSTGRES_LANGUAGE_UNACCENT) for term in self.get_search_terms(request)]
         search_query = reduce(lambda x, y: x & y, search_queries)
         # include and order by search rank
         queryset = queryset.model.objects.annotate(search_rank=SearchRank(F('search_vector'), search_query)).filter(search_vector=search_query)

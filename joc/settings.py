@@ -154,3 +154,5 @@ LOGGING = {
         },
     },
 }
+
+POSTGRES_LANGUAGE_UNACCENT = 'unaccent'

@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from django.contrib.postgres.search import SearchVector
 from django.core.management.base import BaseCommand, CommandError
 from app.models import Category, Recipe
+from joc.settings import POSTGRES_LANGUAGE_UNACCENT
 
 
 class Command(BaseCommand):
@@ -26,7 +27,7 @@ class Command(BaseCommand):
             self.process_toc_item(nav_point)
 
         # create search vector for full-text search
-        vector = SearchVector('name', weight='A') + SearchVector('instructions', weight='B')
+        vector = SearchVector('name', weight='A', config=POSTGRES_LANGUAGE_UNACCENT) + SearchVector('instructions', weight='B', config=POSTGRES_LANGUAGE_UNACCENT)
         Recipe.objects.update(search_vector=vector)
 
     def process_toc_item(self, el: ET.Element, parent=None):
