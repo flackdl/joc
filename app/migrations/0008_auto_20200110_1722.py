@@ -14,9 +14,7 @@ class Migration(migrations.Migration):
     operations = [
         TrigramExtension(),
         UnaccentExtension(),
-        migrations.RunSQL(
-            # create a custom unaccented language configuration
-            "CREATE TEXT SEARCH CONFIGURATION {} ( COPY = french )".format(POSTGRES_LANGUAGE_UNACCENT),
-            "ALTER TEXT SEARCH CONFIGURATION {} ALTER MAPPING FOR hword, hword_part, word WITH unaccent, simple".format(POSTGRES_LANGUAGE_UNACCENT),
-        )
+        # create a custom unaccented language configuration
+        migrations.RunSQL("CREATE TEXT SEARCH CONFIGURATION {} ( COPY = english )".format(POSTGRES_LANGUAGE_UNACCENT)),
+        migrations.RunSQL("ALTER TEXT SEARCH CONFIGURATION {} ALTER MAPPING FOR hword, hword_part, word WITH unaccent, english_stem".format(POSTGRES_LANGUAGE_UNACCENT)),
     ]
