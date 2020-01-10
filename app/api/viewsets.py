@@ -19,4 +19,4 @@ class RecipeViewSet(viewsets.ModelViewSet):
     serializer_class = RecipeSerializer
     filterset_class = RecipeFilterSet
     filter_backends = (SearchVectorFilter, DjangoFilterBackend)
-    search_field = ['search_vector']
+    search_fields = ['search_vector']
