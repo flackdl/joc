@@ -10,9 +10,10 @@ class Migration(migrations.Migration):
         ('app', '0007_auto_20200110_1412'),
     ]
 
-    # https://docs.djangoproject.com/en/3.0/ref/contrib/postgres/lookups/#trigram-similarity
     operations = [
+        # https://docs.djangoproject.com/en/3.0/ref/contrib/postgres/lookups/#trigram-similarity
         TrigramExtension(),
+        # https://docs.djangoproject.com/en/3.0/ref/contrib/postgres/lookups/#unaccent
         UnaccentExtension(),
         # create a custom unaccented language configuration
         migrations.RunSQL("CREATE TEXT SEARCH CONFIGURATION {} ( COPY = english )".format(POSTGRES_LANGUAGE_UNACCENT)),
