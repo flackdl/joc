@@ -19,11 +19,11 @@ class Recipe(models.Model):
     name = models.CharField(max_length=500, unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     instructions = models.TextField()
-    search = SearchVectorField()
+    search_vector = SearchVectorField()
 
     class Meta:
         indexes = [
-            GinIndex(fields=['search']),
+            GinIndex(fields=['search_vector']),
         ]
 
     def __str__(self):

@@ -11,4 +11,4 @@ class CategorySerializer(serializers.ModelSerializer):
 class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
-        exclude = ('search',)
+        exclude = ('search_vector',)
