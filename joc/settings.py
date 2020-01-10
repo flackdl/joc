@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'joc.wsgi.application'
 
 # https://github.com/kennethreitz/dj-database-url
 DATABASES = {
-    'default': dj_database_url.config(default='sqlite:////{}'.format(os.path.join(BASE_DIR, 'db.sqlite3'))),
+    'default': dj_database_url.config(default='postgres://postgres@localhost:5432/postgres', conn_max_age=300),
 }
 
 

@@ -2,8 +2,8 @@ import re
 import os
 import lxml.html
 import xml.etree.ElementTree as ET
+from django.contrib.postgres.search import SearchVector
 from django.core.management.base import BaseCommand, CommandError
-
 from app.models import Category, Recipe
 
 
@@ -24,6 +24,10 @@ class Command(BaseCommand):
         root = tree.getroot()
         for nav_point in root.findall('./ncx:navMap/ncx:navPoint', self.ns):
             self.process_toc_item(nav_point)
+
+        # create search vector for full-text search
+        vector = SearchVector('name', weight='A') + SearchVector('instructions', weight='B')
+        Recipe.objects.update(search_vector=vector)
 
     def process_toc_item(self, el: ET.Element, parent=None):
         el_title = el.find('ncx:navLabel/ncx:text', self.ns).text

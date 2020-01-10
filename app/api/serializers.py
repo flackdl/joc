@@ -9,6 +9,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class RecipeSerializer(serializers.ModelSerializer):
+    search_rank = serializers.FloatField(read_only=True)
+
     class Meta:
         model = Recipe
         exclude = ('search_vector',)
