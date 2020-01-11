@@ -23,10 +23,11 @@ class SearchVectorFilter(SearchFilter):
         queryset = super().filter_queryset(request, queryset, view)
         # build combined search queries
         search_queries = [SearchQuery(term, config=POSTGRES_LANGUAGE_UNACCENT) for term in self.get_search_terms(request)]
-        search_query = reduce(lambda x, y: x & y, search_queries)
-        # include and order by search rank
-        queryset = queryset.model.objects.annotate(search_rank=SearchRank(F('search_vector'), search_query)).filter(search_vector=search_query)
-        queryset = queryset.order_by('-search_rank')
+        if search_queries:
+            search_query = reduce(lambda x, y: x & y, search_queries)
+            # include and order by search rank
+            queryset = queryset.model.objects.annotate(search_rank=SearchRank(F('search_vector'), search_query)).filter(search_vector=search_query)
+            queryset = queryset.order_by('-search_rank')
         return queryset
 
     def construct_search(self, field_name):
