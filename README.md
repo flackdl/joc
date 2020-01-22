@@ -1,4 +1,6 @@
-# JOC
+# Joy Of Cooking
+
+REST API powering a PostgreSQL full-text search of the `Joy of Cooking`.
 
 ## Developing
 
@@ -6,6 +8,7 @@
 
 - python 3.6
 - lxml
+- postgresql (you can use the supplied docker-compose version)
 
 Make sure you have python 3.6+ by running
 
@@ -40,6 +43,10 @@ to your new environment (vs the global install).
 Install all requirements:
 
     pip install -r requirements.txt
+    
+#### Start PostgreSQL
+
+    docker-compose up -d
 
 #### Initialize application
 
