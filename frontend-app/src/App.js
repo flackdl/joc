@@ -5,7 +5,7 @@ import  { Search } from './search/Search';
 function App() {
   return (
     <div className={'container'}>
-        <Search />
+        <Search placeholder={'vegetable souffle'} />
     </div>
   );
 }
