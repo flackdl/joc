@@ -5,20 +5,17 @@ export class Search extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            query: '',
             isLoading: false,
+            query: '',
             results: null,
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         this.setState({query: event.target.value});
-    }
+    };
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         this.setState({isLoading: true});
         fetch(`https://joy-of-cooking.herokuapp.com/api/recipe/?search=${this.state.query}`).then((result) => {
             result.json().then((data) => {
@@ -26,7 +23,7 @@ export class Search extends React.Component {
             })
         });
         event.preventDefault();
-    }
+    };
 
     results() {
         if (this.state.results) {
@@ -50,7 +47,7 @@ export class Search extends React.Component {
     spinner() {
         if (this.state.isLoading) {
             return (
-                <img src={spinner} />
+                <img alt="spinner" src={spinner} />
             )
         }
     }
