@@ -2,7 +2,7 @@
 
 REST API powering a PostgreSQL full-text search of the `Joy of Cooking`.
 
-## Developing
+## Developing - backend
 
 #### Dependencies
 
@@ -74,3 +74,13 @@ The server will now be running:
 
 - Backend Admin: http://127.0.0.1:8000/admin
 - API: http://127.0.0.1:8000/api
+
+## Developing - frontend
+
+Install dependencies:
+
+    npm --prefix frontend-app i
+
+Run development server with hot reload:
+
+    npm --prefix frontend-app run start
